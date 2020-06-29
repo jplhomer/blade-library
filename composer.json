@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Woodblock\\Woodblock\\": "src"
+            "Woodblock\\": "src"
         }
     },
     "autoload-dev": {

@@ -3,7 +3,6 @@
 namespace Woodblock;
 
 use Illuminate\Support\ServiceProvider;
-use Woodblock\Commands\WoodblockCommand;
 
 class WoodblockServiceProvider extends ServiceProvider
 {
