@@ -1,8 +1,8 @@
 # Develop your Blade components in-browser.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/jplhomer/woodblock.svg?style=flat-square)](https://packagist.org/packages/jplhomer/woodblock)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jplhomer/woodblock/run-tests?label=tests)](https://github.com/jplhomer/woodblock/actions?query=workflow%3Arun-tests+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/jplhomer/woodblock.svg?style=flat-square)](https://packagist.org/packages/jplhomer/woodblock)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/jplhomer/blade-library.svg?style=flat-square)](https://packagist.org/packages/jplhomer/blade-library)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jplhomer/blade-library/run-tests?label=tests)](https://github.com/jplhomer/blade-library/actions?query=workflow%3Arun-tests+branch%3Amaster)
+[![Total Downloads](https://img.shields.io/packagist/dt/jplhomer/blade-library.svg?style=flat-square)](https://packagist.org/packages/jplhomer/blade-library)
 
 
 ## Installation
@@ -10,19 +10,19 @@
 You can install the package via composer:
 
 ```bash
-composer require jplhomer/woodblock
+composer require jplhomer/blade-library
 ```
 
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --provider="Woodblock\WoodblockServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="BladeLibrary\BladeLibraryServiceProvider" --tag="migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Woodblock\WoodblockServiceProvider" --tag="config"
+php artisan vendor:publish --provider="BladeLibrary\BladeLibraryServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
@@ -35,8 +35,8 @@ return [
 ## Usage
 
 ``` php
-$woodblock = new Woodblock();
-echo $woodblock->echoPhrase('Hello, Woodblock!');
+$blade-library = new BladeLibrary();
+echo $blade-library->echoPhrase('Hello, BladeLibrary!');
 ```
 
 ## Testing

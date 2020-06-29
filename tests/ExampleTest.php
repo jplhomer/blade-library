@@ -1,6 +1,6 @@
 <?php
 
-namespace Woodblock\Tests;
+namespace BladeLibrary\Tests;
 
 class ExampleTest extends TestCase
 {

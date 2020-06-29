@@ -1,11 +1,11 @@
 {
-    "name": "jplhomer/woodblock",
+    "name": "jplhomer/blade-library",
     "description": "Develop your Blade components in-browser.",
     "keywords": [
         "jplhomer",
-        "woodblock"
+        "blade-library"
     ],
-    "homepage": "https://github.com/jplhomer/woodblock",
+    "homepage": "https://github.com/jplhomer/blade-library",
     "license": "MIT",
     "authors": [
         {
@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Woodblock\\": "src"
+            "BladeLibrary\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Woodblock\\Tests\\": "tests"
+            "BladeLibrary\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -47,10 +47,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Woodblock\\WoodblockServiceProvider"
+                "BladeLibrary\\BladeLibraryServiceProvider"
             ],
             "aliases": {
-                "Woodblock": "Woodblock\\WoodblockFacade"
+                "BladeLibrary": "BladeLibrary\\BladeLibraryFacade"
             }
         }
     },

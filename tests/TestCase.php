@@ -1,9 +1,9 @@
 <?php
 
-namespace Woodblock\Tests;
+namespace BladeLibrary\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Woodblock\WoodblockServiceProvider;
+use BladeLibrary\BladeLibraryServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -17,7 +17,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            WoodblockServiceProvider::class,
+            BladeLibraryServiceProvider::class,
         ];
     }
 
