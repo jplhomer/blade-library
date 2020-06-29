@@ -4,6 +4,7 @@ namespace BladeLibrary;
 
 use BladeLibrary\Http\BladeLibraryController;
 use BladeLibrary\Http\Components\FrontDesk;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
@@ -20,6 +21,7 @@ class BladeLibraryServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerLivewireComponents();
         $this->registerBladeComponents();
+        $this->registerBladeDirectives();
         $this->registerViews();
         $this->registerRoutes();
         $this->registerPublishables();
@@ -33,6 +35,12 @@ class BladeLibraryServiceProvider extends ServiceProvider
     protected function registerBladeComponents()
     {
         # code...
+    }
+
+    protected function registerBladeDirectives()
+    {
+        Blade::directive('chapter', [BladeLibraryBladeDirectives::class, 'chapter']);
+        Blade::directive('endchapter', [BladeLibraryBladeDirectives::class, 'endchapter']);
     }
 
     protected function registerLivewireComponents()
