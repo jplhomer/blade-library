@@ -24,5 +24,7 @@ class BladeLibraryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/blade-library.php', 'blade-library');
+
+        $this->app->alias(BladeLibrary::class, 'blade-library');
     }
 }
