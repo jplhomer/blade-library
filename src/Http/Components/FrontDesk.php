@@ -2,6 +2,7 @@
 
 namespace BladeLibrary\Http\Components;
 
+use BladeLibrary\BladeLibraryComponentFinder;
 use Livewire\Component;
 
 class FrontDesk extends Component
@@ -18,16 +19,14 @@ class FrontDesk extends Component
     public function render()
     {
         return view('library::components.front-desk', [
-            'books' => [],
+            'books' => app(BladeLibraryComponentFinder::class)->all(),
         ]);
     }
 
-    // public function getActiveBookProperty()
-    // {
-    //     if (! $this->book) return false;
+    public function getActiveBookProperty()
+    {
+        if (! $this->book) return false;
 
-    //     return collect(Library::create()
-    //         ->getBooks())
-    //         ->firstWhere('slug', $this->book);
-    // }
+        return app(BladeLibraryComponentFinder::class)->get($this->book);
+    }
 }

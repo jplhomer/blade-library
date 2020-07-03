@@ -4,13 +4,15 @@ namespace BladeLibrary;
 
 class BladeLibraryBladeDirectives
 {
-    public static function chapter($expression)
+    const STORY_TAG = 'story';
+
+    public static function story()
     {
-        return '<?php if (false) : ?>';
+        return "<?php if (false) : ?>";
     }
 
-    public static function endchapter($expression)
+    public static function endstory()
     {
-        return '<?php endif; ?>';
+        return "<?php endif; ?>";
     }
 }

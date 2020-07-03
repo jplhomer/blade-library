@@ -13,4 +13,14 @@ return [
     */
 
     'path' => '/library',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Books Path
+    |--------------------------------------------------------------------------
+    |
+    | This is the file path where your books are stored.
+    |
+    */
+    'books_path' => resource_path('views/books'),
 ];
