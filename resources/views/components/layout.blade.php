@@ -34,7 +34,7 @@
             <!-- Sidebar component, swap this element with another sidebar if you like -->
             <div class="flex flex-col flex-grow border-r border-gray-200 pt-5 pb-4 bg-white overflow-y-auto">
                 <div class="flex items-center flex-shrink-0 px-4">
-                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-on-white.svg" alt="Workflow">
+                    <div class="font-bold text-3xl" style="font-family: Mukta, sans-serif">Blade Library</div>
                 </div>
                 <div class="mt-5 flex-grow flex flex-col">
                     <nav class="flex-1 px-2 bg-white">
