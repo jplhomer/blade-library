@@ -13,16 +13,15 @@ You can install the package via composer:
 composer require jplhomer/blade-library
 ```
 
-You can publish and run the migrations with:
+Then publish assets and configuration with:
 
 ```bash
-php artisan vendor:publish --provider="BladeLibrary\BladeLibraryServiceProvider" --tag="migrations"
-php artisan migrate
+php artisan blade-library:install
 ```
 
-You can publish the config file with:
+You can publish the views with:
 ```bash
-php artisan vendor:publish --provider="BladeLibrary\BladeLibraryServiceProvider" --tag="config"
+php artisan vendor:publish --provider="BladeLibrary\BladeLibraryServiceProvider" --tag="blade-library-views"
 ```
 
 This is the contents of the published config file:
@@ -33,11 +32,6 @@ return [
 ```
 
 ## Usage
-
-``` php
-$blade-library = new BladeLibrary();
-echo $blade-library->echoPhrase('Hello, BladeLibrary!');
-```
 
 ## Testing
 

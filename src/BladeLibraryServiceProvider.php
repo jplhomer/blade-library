@@ -2,6 +2,7 @@
 
 namespace BladeLibrary;
 
+use BladeLibrary\Console\InstallCommand;
 use BladeLibrary\Http\BladeLibraryController;
 use BladeLibrary\Http\Components\FrontDesk;
 use Illuminate\Filesystem\Filesystem;
@@ -17,6 +18,10 @@ class BladeLibraryServiceProvider extends ServiceProvider
     {
         $this->registerFacade();
         $this->registerComponentAutoDiscovery();
+
+        $this->commands([
+            InstallCommand::class,
+        ]);
     }
 
     public function boot()
@@ -81,11 +86,15 @@ class BladeLibraryServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/blade-library.php' => config_path('blade-library.php'),
-            ], 'config');
+            ], 'blade-library-config');
+
+            $this->publishes([
+                __DIR__.'/../public' => public_path('vendor/blade-library'),
+            ], 'blade-library-assets');
 
             $this->publishes([
                 __DIR__.'/../resources/views' => base_path('resources/views/vendor/blade-library'),
-            ], 'views');
+            ], 'blade-library-views');
         }
     }
 
