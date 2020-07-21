@@ -13,6 +13,10 @@
         <div class="prose">
             <h1>{{ $this->activeBook['name'] }}</h1>
 
+            <div class="text-2xl">
+                <code>&lt;x-{{ $this->activeBook['alias'] }}&gt;</code>
+            </div>
+
             @if ($this->activeBook['view'] ?? false)
                 <div>{!! $this->activeBook['view'] !!}</div>
             @endif
