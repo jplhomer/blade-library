@@ -135,7 +135,8 @@ class BladeLibraryComponentFinder
             $stories[] = [
                 'name' => $name,
                 'alias' => Str::slug($name ?: $alias . '-' . $idx),
-                'body' => $bodies[$idx],
+                'body' => trim($bodies[$idx]),
+                'chapter' => $alias,
             ];
         }
 
@@ -152,7 +153,7 @@ class BladeLibraryComponentFinder
 
             if (! $story = $stories->firstWhere('name', $name)) return;
 
-            return '<iframe src="/library/' . $bookAlias . '/' . $story['alias'] . '" frameborder="0"></iframe>';
+            return BladeLibraryFacade::storyFrame($story);
         }, $contents);
 
         $anonymousStories = $stories->where('name', '');
@@ -163,7 +164,7 @@ class BladeLibraryComponentFinder
 
             if (!$nextStory) return;
 
-            return '<iframe src="/library/' . $bookAlias . '/' . $nextStory['alias'] . '" frameborder="0"></iframe>';
+            return BladeLibraryFacade::storyFrame($nextStory);
         }, $contents);
 
         // Finally, build the view using the contents

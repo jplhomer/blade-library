@@ -1,6 +1,6 @@
 <?php
 
-namespace BladeLibrary\Http\Components;
+namespace BladeLibrary\View\Components;
 
 use BladeLibrary\BladeLibraryComponentFinder;
 use Livewire\Component;

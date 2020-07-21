@@ -4,8 +4,9 @@ namespace BladeLibrary;
 
 use BladeLibrary\Console\InstallCommand;
 use BladeLibrary\Http\BladeLibraryController;
-use BladeLibrary\Http\Components\FrontDesk;
+use BladeLibrary\View\Components\FrontDesk;
 use BladeLibrary\View\Components\Layout;
+use BladeLibrary\View\Components\StoryFrame;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,7 @@ class BladeLibraryServiceProvider extends ServiceProvider
     {
         $this->loadViewComponentsAs('library', [
             Layout::class,
+            StoryFrame::class,
         ]);
     }
 

@@ -14,13 +14,15 @@
             @endif
 
             <h2>All Stories</h2>
+        </div>
 
+        <div style="max-width: 65ch" class="mt-4">
             @foreach ($this->activeBook['stories'] as $story)
                 @if ($story['name'])
-                    <h3>{{ $story['name'] }}</h3>
+                    <h3 class="text-lg font-medium mt-8 mb-2">{{ $story['name'] }}</h3>
                 @endif
 
-                <iframe src="/library/{{ $this->activeBook['alias'] }}/{{ $story['alias'] }}" frameborder="0"></iframe>
+                <x-library-story-frame :name="$story['name']" :body="$story['body']"><iframe src="/library/{{ $story['chapter'] }}/{{ $story['alias'] }}" frameborder="0"></iframe></x-library-story-frame>
             @endforeach
         </div>
     @endif
