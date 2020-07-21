@@ -4,7 +4,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/jplhomer/blade-library/run-tests?label=tests)](https://github.com/jplhomer/blade-library/actions?query=workflow%3Arun-tests+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/jplhomer/blade-library.svg?style=flat-square)](https://packagist.org/packages/jplhomer/blade-library)
 
-![Blade Library screenshot](./docs/images/library.png)
+![Blade Library screenshot](./images/library.png)
 
 ## Installation
 
