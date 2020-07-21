@@ -10,14 +10,16 @@
             <h1>{{ $this->activeBook['name'] }}</h1>
 
             <div>{!! $this->activeBook['view'] !!}</div>
+
+            <h2>All Chapters</h2>
+
+            @foreach ($this->activeBook['chapters'] as $chapter)
+                @if ($chapter['name'])
+                    <h3>{{ $chapter['name'] }}</h3>
+                @endif
+
+                <iframe src="/library/{{ $this->activeBook['alias'] }}/{{ $chapter['alias'] }}" frameborder="0"></iframe>
+            @endforeach
         </div>
-
-        @foreach ($this->activeBook['chapters'] as $chapter)
-            @if ($chapter['name'])
-                <h2>{{ $chapter['name'] }}</h2>
-            @endif
-
-            <iframe src="/library/{{ $this->activeBook['alias'] }}/{{ $chapter['alias'] }}" frameborder="0"></iframe>
-        @endforeach
     @endif
 </x-library-layout>
