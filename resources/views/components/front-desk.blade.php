@@ -6,9 +6,11 @@
     </x-slot>
 
     @if ($this->activeBook)
-        <h1>{{ $this->activeBook['name'] }}</h1>
+        <div class="prose">
+            <h1>{{ $this->activeBook['name'] }}</h1>
 
-        <div>{!! $this->activeBook['view'] !!}</div>
+            <div>{!! $this->activeBook['view'] !!}</div>
+        </div>
 
         @foreach ($this->activeBook['chapters'] as $chapter)
             @if ($chapter['name'])
