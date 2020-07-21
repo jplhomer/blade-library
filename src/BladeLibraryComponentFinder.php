@@ -49,8 +49,8 @@ class BladeLibraryComponentFinder
                     ->name('*.blade.php')
                     ->contains('@story')
         )->map(function ($path) {
-                return $this->parseBookFromComponentFile($path);
-            });
+            return $this->parseBookFromComponentFile($path);
+        });
 
         /**
          * TODO: Finally, we check for class components to see if any of those
