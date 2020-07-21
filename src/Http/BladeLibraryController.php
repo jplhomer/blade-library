@@ -12,11 +12,11 @@ class BladeLibraryController
         return view('library::library.index');
     }
 
-    public function get(BladeLibraryComponentFinder $finder, ViewBuilder $builder, $book, $chapter)
+    public function get(BladeLibraryComponentFinder $finder, ViewBuilder $builder, $book, $story)
     {
         $book = $finder->get($book);
-        $chapter = collect($book['chapters'])->firstWhere('alias', $chapter);
-        $body = $chapter['body'];
+        $story = collect($book['stories'])->firstWhere('alias', $story);
+        $body = $story['body'];
 
         $view = $builder->build($body);
 

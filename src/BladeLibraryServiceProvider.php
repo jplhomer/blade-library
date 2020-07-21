@@ -80,7 +80,7 @@ class BladeLibraryServiceProvider extends ServiceProvider
     {
         Route::get(config('blade-library.path', '/library'), [BladeLibraryController:: class, 'index'])
             ->middleware('web');
-        Route::get(config('blade-library.path', '/library') . '/{book}/{chapter}', [BladeLibraryController:: class, 'get'])
+        Route::get(config('blade-library.path', '/library') . '/{book}/{story}', [BladeLibraryController:: class, 'get'])
             ->middleware('web');
     }
 

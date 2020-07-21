@@ -39,17 +39,35 @@ class BladeLibraryComponentFinder
             });
 
         /**
-         * TODO: Next, we check to see if there are any regular components that
+         * Next, we check to see if there are any regular components that
          * contain @story, as those will be considered books as well.
          */
+        $components = collect(
+                $this->finder
+                    ->files()
+                    ->in($this->componentsPath)
+                    ->name('*.blade.php')
+                    ->contains('@story')
+            )->map(function ($path) {
+                return $this->parseBookFromComponentFile($path);
+            });
 
         /**
          * TODO: Finally, we check for class components to see if any of those
          * contain the @story comment flag.
          */
 
+        $all = $books->map(function ($book) use ($components) {
+            if ($component = $components->firstWhere('alias', $book['alias'])) {
+                $book['stories'] = $book['stories']->concat($component['stories']);
+            }
 
-        return $books;
+            return $book;
+        });
+
+        $all = $all->concat($components->whereNotIn('alias', $books->pluck('alias')));
+
+        return $all->sortBy('alias');
     }
 
     public function get(string $alias)
@@ -60,18 +78,33 @@ class BladeLibraryComponentFinder
     protected function parseBookFromBookFile(SplFileInfo $file)
     {
         $alias = $this->aliasFromFile($file);
-        $chapters = $this->getChapters($file);
+        $contents = $this->files->get($file->getPathname());
+        $stories = $this->getStories($alias, $contents);
 
         $book = [
             'path' => $file->getPathname(),
             'alias' => $alias,
             'name' => $this->nameFromAlias($alias),
-            'chapters' => $chapters,
+            'stories' => $stories,
         ];
 
-        $book['view'] = view($this->injectChaptersIntoBookView($alias, $chapters, $file));
+        $book['view'] = view($this->injectStoriesIntoBookView($alias, $stories, $file));
 
         return $book;
+    }
+
+    public function parseBookFromComponentFile(string $path)
+    {
+        $contents = $this->files->get($path);
+        $alias = basename($path, '.blade.php');
+        $stories = $this->getStories($alias, $contents);
+
+        return [
+            'path' => $path,
+            'alias' => $alias,
+            'name' => $this->nameFromAlias($alias),
+            'stories' => $stories,
+        ];
     }
 
     protected function aliasFromFile(SplFileInfo $file)
@@ -88,49 +121,49 @@ class BladeLibraryComponentFinder
         );
     }
 
-    protected function getChapters(SplFileInfo $file): Collection
+    protected function getStories(string $alias, string $contents): Collection
     {
-        $alias = $this->aliasFromFile($file);
-        $contents = $this->files->get($file->getPathname());
         preg_match_all('/@story(?:\([\'"]([\w\s]+)[\'"]\))?(.*?)@endstory/s', $contents, $matches);
 
         if (empty($matches)) return [];
 
         [$all, $names, $bodies] = $matches;
 
-        $chapters = [];
+        $stories = [];
 
         foreach ($names as $idx => $name) {
-            $chapters[] = [
+            $stories[] = [
                 'name' => $name,
                 'alias' => Str::slug($name ?: $alias . '-' . $idx),
                 'body' => $bodies[$idx],
             ];
         }
 
-        return collect($chapters);
+        return collect($stories);
     }
 
-    protected function injectChaptersIntoBookView(string $bookAlias, Collection $chapters, SplFileInfo $file)
+    protected function injectStoriesIntoBookView(string $bookAlias, Collection $stories)
     {
         $contents = view('books.' . $bookAlias)->render();
 
         // First, replace all exact matches
-        $contents = preg_replace_callback('/<!-- #library-component-\'([\w\s-]+)\' -->/', function ($matches) use ($bookAlias, $chapters) {
+        $contents = preg_replace_callback('/<!-- #library-component-\'([\w\s-]+)\' -->/', function ($matches) use ($bookAlias, $stories) {
             $name = $matches[1];
 
-            if (! $chapter = $chapters->firstWhere('name', $name)) return;
+            if (! $story = $stories->firstWhere('name', $name)) return;
 
-            return '<iframe src="/library/' . $bookAlias . '/' . $chapter['alias'] . '" frameborder="0"></iframe>';
+            return '<iframe src="/library/' . $bookAlias . '/' . $story['alias'] . '" frameborder="0"></iframe>';
         }, $contents);
 
-        $anonymousChapters = $chapters->where('name', '');
+        $anonymousStories = $stories->where('name', '');
 
         // Next, replace all remaining empty slots in sequential order
-        $contents = preg_replace_callback('/<!-- #library-component- -->/', function ($matches) use ($bookAlias, $anonymousChapters) {
-            $nextChapter = $anonymousChapters->shift();
+        $contents = preg_replace_callback('/<!-- #library-component- -->/', function ($matches) use ($bookAlias, $anonymousStories) {
+            $nextStory = $anonymousStories->shift();
 
-            return '<iframe src="/library/' . $bookAlias . '/' . $nextChapter['alias'] . '" frameborder="0"></iframe>';
+            if (!$nextStory) return;
+
+            return '<iframe src="/library/' . $bookAlias . '/' . $nextStory['alias'] . '" frameborder="0"></iframe>';
         }, $contents);
 
         // Finally, build the view using the contents

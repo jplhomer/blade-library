@@ -9,16 +9,18 @@
         <div class="prose">
             <h1>{{ $this->activeBook['name'] }}</h1>
 
-            <div>{!! $this->activeBook['view'] !!}</div>
+            @if ($this->activeBook['view'] ?? false)
+                <div>{!! $this->activeBook['view'] !!}</div>
+            @endif
 
-            <h2>All Chapters</h2>
+            <h2>All Stories</h2>
 
-            @foreach ($this->activeBook['chapters'] as $chapter)
-                @if ($chapter['name'])
-                    <h3>{{ $chapter['name'] }}</h3>
+            @foreach ($this->activeBook['stories'] as $story)
+                @if ($story['name'])
+                    <h3>{{ $story['name'] }}</h3>
                 @endif
 
-                <iframe src="/library/{{ $this->activeBook['alias'] }}/{{ $chapter['alias'] }}" frameborder="0"></iframe>
+                <iframe src="/library/{{ $this->activeBook['alias'] }}/{{ $story['alias'] }}" frameborder="0"></iframe>
             @endforeach
         </div>
     @endif
