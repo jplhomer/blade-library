@@ -25,7 +25,9 @@ class FrontDesk extends Component
 
     public function getActiveBookProperty()
     {
-        if (! $this->book) return false;
+        if (! $this->book) {
+            return false;
+        }
 
         return app(BladeLibraryComponentFinder::class)->get($this->book);
     }
