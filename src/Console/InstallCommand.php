@@ -33,6 +33,9 @@ class InstallCommand extends Command
         $this->comment('Publishing Blade Library Assets...');
         $this->callSilent('vendor:publish', ['--tag' => 'blade-library-assets']);
 
+        $this->comment('Publishing Blade Library Partials...');
+        $this->callSilent('vendor:publish', ['--tag' => 'blade-library-shared-views']);
+
         $this->info('Blade Library scaffolding installed successfully.');
     }
 }

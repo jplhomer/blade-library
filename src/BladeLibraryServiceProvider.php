@@ -98,8 +98,8 @@ class BladeLibraryServiceProvider extends ServiceProvider
             ], 'blade-library-assets');
 
             $this->publishes([
-                __DIR__.'/../resources/views' => base_path('resources/views/vendor/blade-library'),
-            ], 'blade-library-views');
+                __DIR__.'/../resources/views/partials' => base_path('resources/views/vendor/library/partials'),
+            ], 'blade-library-shared-views');
         }
     }
 

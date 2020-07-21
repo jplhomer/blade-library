@@ -9,7 +9,7 @@ class BladeLibraryController
 {
     public function index()
     {
-        return view('library::library.index');
+        return view('library::index');
     }
 
     public function get(BladeLibraryComponentFinder $finder, ViewBuilder $builder, $book, $story)
@@ -20,7 +20,7 @@ class BladeLibraryController
 
         $view = $builder->build($body);
 
-        return view('library::library.show', [
+        return view('library::show', [
             'view' => $view,
         ]);
     }

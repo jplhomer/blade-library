@@ -6,8 +6,7 @@
     <title>Blade Library</title>
     @livewireStyles
 
-    {{-- TODO: Allow user to pull their own layout, or insert scripts/styles --}}
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    @include('library::partials.head')
 </head>
 <body>
 

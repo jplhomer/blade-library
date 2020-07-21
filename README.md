@@ -13,23 +13,16 @@ You can install the package via composer:
 composer require jplhomer/blade-library
 ```
 
-Then publish assets and configuration with:
+Then, publish assets, configuration, and views with:
 
 ```bash
 php artisan blade-library:install
 ```
 
-You can publish the views with:
-```bash
-php artisan vendor:publish --provider="BladeLibrary\BladeLibraryServiceProvider" --tag="blade-library-views"
-```
+It's likely that you'll want to include your app's CSS stylesheet's in your component examples, or customize the logo used in Blade Library.
 
-This is the contents of the published config file:
+To do so, edit the `head.blade.php` and `logo.blade.php` files published to your `resources/views/vendor/library/partials` directory.
 
-```php
-return [
-];
-```
 
 ## Usage
 
