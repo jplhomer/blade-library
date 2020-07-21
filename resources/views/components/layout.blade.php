@@ -17,7 +17,7 @@
                     <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-on-white.svg" alt="Workflow">
                 </div>
                 <div class="mt-5 flex-1 h-0 overflow-y-auto">
-                    <nav class="px-2">
+                    <nav class="px-2 space-y-1">
                         {{ $nav }}
                     </nav>
                 </div>
