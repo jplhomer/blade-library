@@ -3,6 +3,7 @@
 namespace BladeLibrary;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Collection;
 use SplFileInfo;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\Finder;
@@ -58,26 +59,24 @@ class BladeLibraryComponentFinder
 
     protected function parseBookFromBookFile(SplFileInfo $file)
     {
-        $alias = $this->aliasFromFileName($file->getFilename());
+        $alias = $this->aliasFromFile($file);
+        $chapters = $this->getChapters($file);
 
-        return [
+        $book = [
             'path' => $file->getPathname(),
             'alias' => $alias,
             'name' => $this->nameFromAlias($alias),
-            'view' => view('books.' . $alias, [
-                'embedStories' => true
-            ]),
-            'chapters' => $this->getChapters($file),
+            'chapters' => $chapters,
         ];
+
+        $book['view'] = view($this->injectChaptersIntoBookView($alias, $chapters, $file));
+
+        return $book;
     }
 
-    protected function aliasFromFileName(string $fileName)
+    protected function aliasFromFile(SplFileInfo $file)
     {
-        return str_replace(
-            ['.blade.php'],
-            [''],
-            $fileName
-        );
+        return $file->getBasename('.blade.php');
     }
 
     protected function nameFromAlias(string $alias)
@@ -89,9 +88,9 @@ class BladeLibraryComponentFinder
         );
     }
 
-    protected function getChapters(SplFileInfo $file)
+    protected function getChapters(SplFileInfo $file): Collection
     {
-        $alias = $file->getBasename('.blade.php');
+        $alias = $this->aliasFromFile($file);
         $contents = $this->files->get($file->getPathname());
         preg_match_all('/@story(?:\([\'"]([\w\s]+)[\'"]\))?(.*?)@endstory/s', $contents, $matches);
 
@@ -109,6 +108,32 @@ class BladeLibraryComponentFinder
             ];
         }
 
-        return $chapters;
+        return collect($chapters);
+    }
+
+    protected function injectChaptersIntoBookView(string $bookAlias, Collection $chapters, SplFileInfo $file)
+    {
+        $contents = view('books.' . $bookAlias)->render();
+
+        // First, replace all exact matches
+        $contents = preg_replace_callback('/<!-- #library-component-\'([\w\s-]+)\' -->/', function ($matches) use ($bookAlias, $chapters) {
+            $name = $matches[1];
+
+            if (! $chapter = $chapters->firstWhere('name', $name)) return;
+
+            return '<iframe src="/library/' . $bookAlias . '/' . $chapter['alias'] . '" frameborder="0"></iframe>';
+        }, $contents);
+
+        $anonymousChapters = $chapters->where('name', '');
+
+        // Next, replace all remaining empty slots in sequential order
+        $contents = preg_replace_callback('/<!-- #library-component- -->/', function ($matches) use ($bookAlias, $anonymousChapters) {
+            $nextChapter = $anonymousChapters->shift();
+
+            return '<iframe src="/library/' . $bookAlias . '/' . $nextChapter['alias'] . '" frameborder="0"></iframe>';
+        }, $contents);
+
+        // Finally, build the view using the contents
+        return app(ViewBuilder::class)->build($contents);
     }
 }

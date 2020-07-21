@@ -6,9 +6,9 @@ class BladeLibraryBladeDirectives
 {
     const STORY_TAG = 'story';
 
-    public static function story()
+    public static function story($expression)
     {
-        return "<?php if (false) : ?>";
+        return "<!-- #library-component-$expression --><?php if (false) : ?>";
     }
 
     public static function endstory()
