@@ -1,4 +1,4 @@
-<div>
+<x-library-layout>
     <h1>Blade Library</h1>
 
     @foreach ($books as $book)
@@ -18,4 +18,4 @@
             <iframe src="/library/{{ $this->activeBook['alias'] }}/{{ $chapter['alias'] }}" frameborder="0"></iframe>
         @endforeach
     @endif
-</div>
+</x-library-layout>

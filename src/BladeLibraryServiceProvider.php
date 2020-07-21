@@ -5,6 +5,7 @@ namespace BladeLibrary;
 use BladeLibrary\Console\InstallCommand;
 use BladeLibrary\Http\BladeLibraryController;
 use BladeLibrary\Http\Components\FrontDesk;
+use BladeLibrary\View\Components\Layout;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
@@ -28,9 +29,9 @@ class BladeLibraryServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->registerLivewireComponents();
-        $this->registerBladeComponents();
         $this->registerBladeDirectives();
         $this->registerViews();
+        $this->registerBladeComponents();
         $this->registerRoutes();
         $this->registerPublishables();
     }
@@ -51,11 +52,6 @@ class BladeLibraryServiceProvider extends ServiceProvider
         $this->app->alias(BladeLibrary::class, 'blade-library');
     }
 
-    protected function registerBladeComponents()
-    {
-        # code...
-    }
-
     protected function registerBladeDirectives()
     {
         Blade::directive(BladeLibraryBladeDirectives::STORY_TAG, [BladeLibraryBladeDirectives::class, 'story']);
@@ -71,6 +67,13 @@ class BladeLibraryServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'library');
         $this->loadViewsFrom(storage_path('blade-library'), 'library-generated');
+    }
+
+    protected function registerBladeComponents()
+    {
+        $this->loadViewComponentsAs('library', [
+            Layout::class,
+        ]);
     }
 
     protected function registerRoutes()
