@@ -4,8 +4,8 @@ namespace BladeLibrary;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use SplFileInfo;
 use Illuminate\Support\Str;
+use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 
 class BladeLibraryComponentFinder
@@ -43,12 +43,12 @@ class BladeLibraryComponentFinder
          * contain @story, as those will be considered books as well.
          */
         $components = collect(
-                $this->finder
+            $this->finder
                     ->files()
                     ->in($this->componentsPath)
                     ->name('*.blade.php')
                     ->contains('@story')
-            )->map(function ($path) {
+        )->map(function ($path) {
                 return $this->parseBookFromComponentFile($path);
             });
 
@@ -125,7 +125,9 @@ class BladeLibraryComponentFinder
     {
         preg_match_all('/@story(?:\([\'"]([\w\s]+)[\'"]\))?(.*?)@endstory/s', $contents, $matches);
 
-        if (empty($matches)) return [];
+        if (empty($matches)) {
+            return [];
+        }
 
         [$all, $names, $bodies] = $matches;
 
@@ -151,7 +153,9 @@ class BladeLibraryComponentFinder
         $contents = preg_replace_callback('/<!-- #library-component-\'([\w\s-]+)\' -->/', function ($matches) use ($bookAlias, $stories) {
             $name = $matches[1];
 
-            if (! $story = $stories->firstWhere('name', $name)) return;
+            if (! $story = $stories->firstWhere('name', $name)) {
+                return;
+            }
 
             return BladeLibraryFacade::storyFrame($story);
         }, $contents);
@@ -162,7 +166,9 @@ class BladeLibraryComponentFinder
         $contents = preg_replace_callback('/<!-- #library-component- -->/', function ($matches) use ($bookAlias, $anonymousStories) {
             $nextStory = $anonymousStories->shift();
 
-            if (!$nextStory) return;
+            if (! $nextStory) {
+                return;
+            }
 
             return BladeLibraryFacade::storyFrame($nextStory);
         }, $contents);

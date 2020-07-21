@@ -2,8 +2,8 @@
 
 namespace BladeLibrary\Tests;
 
-use Orchestra\Testbench\TestCase as Orchestra;
 use BladeLibrary\BladeLibraryServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
